@@ -1,3 +1,9 @@
+import { Header } from '../components/Header';
 export const Home = () => {
-  return <h2>papers</h2>;
+  return (
+    <div className="home">
+      <Header />
+      <h2>papers</h2>
+    </div>
+  );
 };
