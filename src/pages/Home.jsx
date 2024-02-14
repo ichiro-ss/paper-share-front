@@ -54,8 +54,8 @@ export const Home = () => {
               </tbody>
             </table>
           </div>
-          <div className="new-paper">
-            <Link to="/new">本を投稿</Link>
+          <div className="new-summary">
+            <Link to="/new">POST SUMMARY</Link>
           </div>
         </>
       )}
