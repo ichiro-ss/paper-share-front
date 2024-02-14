@@ -21,7 +21,6 @@ export const Home = () => {
       })
       .then((res) => {
         setSummaries(res.data.summaries);
-        console.log('🚀 ~ .then ~ res.data:', res.data);
       })
       .catch((err) => {
         setErrorMessage(`failed to get data. ${err}`);
