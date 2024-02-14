@@ -1,5 +1,6 @@
 import { useCookies } from 'react-cookie';
 import { useNavigate, Link } from 'react-router-dom';
+import './header.scss';
 
 export const Header = () => {
   const navigate = useNavigate();
