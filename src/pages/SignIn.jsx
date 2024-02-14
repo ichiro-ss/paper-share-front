@@ -1,15 +1,16 @@
-import axios from 'axios';
 import { useState } from 'react';
+import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { url } from '../const';
 import { Header } from '../components/Header';
-export const SignUp = () => {
+
+export const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrormessage] = useState();
+  const [errorMessage, setErrorMessage] = useState();
   const [cookies, setCookie, removeCookie] = useCookies();
   const {
     register,
@@ -18,39 +19,46 @@ export const SignUp = () => {
   } = useForm({ mode: 'onBlur' });
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
-  const onSignUp = () => {
-    const data = {
-      loginId: email,
-      password,
-    };
 
+  const getProfile = (token) => {
     axios
-      .post(`${url}/users`, data)
+      .get(`${url}/users`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
-        const { token } = res.data;
-        setCookie('token', token);
-        setCookie('name', data.loginId);
+        setCookie('name', res.data.name);
+      })
+      .catch((err) => {
+        setErrorMessage(`ユーザー情報を取得できませんでした．${err}`);
+      });
+  };
+  const onSignIn = () => {
+    axios
+      .post(`${url}/login`, { loginId: email, password })
+      .then((res) => {
+        setCookie('token', res.data.token);
+        getProfile(res.data.token);
         navigate('/');
       })
       .catch((err) => {
-        setErrormessage(`サインアップに失敗しました。 ${err}`);
-        return null;
+        setErrorMessage(`サインインに失敗しました。${err}`);
       });
-
-    if (cookies.token) return <Navigate to="/" />;
-
-    return null;
   };
+
+  if (cookies.token) return <Navigate to="/" />;
+
   return (
     <div>
-      <main className="signup">
+      <main className="signin">
         <Header />
-        <h2>sign up</h2>
+        <h2>sign in</h2>
         <p className="error-message">{errorMessage}</p>
-        <form className="signup-form" onSubmit={handleSubmit(onSignUp)}>
-          {/* eslint-disable */}
+        {/* eslint-disable */}
+        <form className="signin-form" onSubmit={handleSubmit(onSignIn)}>
           <label htmlFor="email">
-            loginID(email)
+            email
             <input
               {...register('email', {
                 required: 'please input your email',
@@ -79,13 +87,14 @@ export const SignUp = () => {
               id="password"
             />
           </label>
-          {errors.email && <div>{errors.email.message}</div>}
-          {errors.password && <div>{errors.password.message}</div>}
-          {/* eslint-enable */}
-          <button type="submit" className="signup-button">
-            Create
+          {errors.email && <p className="validation-err-email">{errors.email.message}</p>}
+          {errors.password && <p className="validation-err-password">{errors.password.message}</p>}
+          <button type="submit" className="signin-button">
+            Sign In
           </button>
         </form>
+        {/* eslint-enable */}
+        <Link to="/signup">SIGN UP</Link>
       </main>
     </div>
   );
