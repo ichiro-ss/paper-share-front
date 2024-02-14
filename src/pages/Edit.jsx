@@ -66,6 +66,25 @@ export const Edit = () => {
     return null;
   };
 
+  const onDelete = () => {
+    axios
+      .delete(`${url}/summaries`, {
+        headers: {
+          authorization: `Bearer ${cookies.token}`,
+        },
+        params: {
+          id: `${params.id}`,
+        },
+      })
+      .then((res) => {
+        navigate('/');
+      })
+      .catch((err) => {
+        setErrorMessage(`failed to delete. ${err}`);
+      });
+    return null;
+  };
+
   return (
     <div>
       <main className="edit">
@@ -108,6 +127,9 @@ export const Edit = () => {
               POST
             </button>
             {/* eslint-enable */}
+            <button type="button" onClick={onDelete}>
+              DELETE
+            </button>
           </form>
         </div>
       </main>
