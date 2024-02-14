@@ -10,7 +10,7 @@ export const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrormessage] = useState();
-  const [cookies, setCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies();
   const {
     register,
     handleSubmit,
