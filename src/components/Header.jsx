@@ -15,6 +15,9 @@ export const Header = () => {
       {cookies.token ? (
         <>
           <strong>{cookies.name}</strong>
+          <Link className="header__edit-user" to="/profile">
+            EDIT PROFILE
+          </Link>
           <button type="button" onClick={handleSignOut} className="sign-out-button">
             SIGN OUT
           </button>
