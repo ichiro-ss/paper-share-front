@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { url } from '../const';
 // import SummariesTable from './SummariesTable';
 
 export const Home = () => {
+  const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
   const [summaries, setSummaries] = useState([]);
   const [errorMessage, setErrorMessage] = useState([]);
@@ -23,7 +24,7 @@ export const Home = () => {
         setSummaries(res.data.summaries);
       })
       .catch((err) => {
-        setErrorMessage(`failed to get data. ${err}`);
+        navigate('/signin');
       });
   }, []);
 
