@@ -13,6 +13,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main # リポジトリをチェックアウト
 
+      - name: Prepare .env.production file
+        run: |
+          cat << EOF > .env.production
+          REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
+          EOF
+
       - name: Install Dependencies
         run: npm install
 
