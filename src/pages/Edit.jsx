@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
+import ClipLoader from 'react-spinners/ClipLoader';
 import { useForm } from 'react-hook-form';
 import { Header } from '../components/Header';
 import { url } from '../const';
@@ -12,6 +13,8 @@ export const Edit = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const [errorMessage, setErrorMessage] = useState();
   const [summary, setSummary] = useState([]);
+  const [pageLoading, setPageLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -19,6 +22,7 @@ export const Edit = () => {
   } = useForm({ mode: 'onBlur' });
 
   useEffect(() => {
+    setPageLoading(true);
     axios
       .get(`${url}/summaries`, {
         headers: {
@@ -39,6 +43,9 @@ export const Edit = () => {
       })
       .catch((err) => {
         setErrorMessage(`failed to get data. ${err}`);
+      })
+      .finally(() => {
+        setPageLoading(false);
       });
   }, []);
 
@@ -91,47 +98,57 @@ export const Edit = () => {
         <Header />
         <p className="error-msg">{errorMessage}</p>
         <h1>Edit</h1>
-        <div>
-          <form className="newummary-form" onSubmit={handleSubmit(onEdit)}>
-            {/* eslint-disable */}
-            <label htmlFor="title">
-              title
-              <input
-                {...register('title', {
-                  required: 'please input title',
-                  maxLength: {
-                    value: 30,
-                    message: 'maxLength: 30',
-                  },
-                })}
-                value={summary.title}
-                type="text"
-                onChange={(e) => setSummary({ ...summary, title: e.target.value })}
-                id="title"
-              />
-            </label>
-            <label htmlFor="markdown">
-              markdown
-              <input
-                {...register('markdown', {
-                  required: 'please input markdown',
-                })}
-                value={summary.markdown}
-                type="text"
-                onChange={(e) => setSummary({ ...summary, markdown: e.target.value })}
-                id="markdown"
-              />
-            </label>
-            {errors.name && <div>{errors.name.message}</div>}
-            <button type="submit" className="newsummary-button">
-              POST
-            </button>
-            {/* eslint-enable */}
-            <button type="button" onClick={onDelete}>
-              DELETE
-            </button>
-          </form>
-        </div>
+        {pageLoading ? (
+          <div className="loading custom-loader">
+            <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
+          </div>
+        ) : (
+          <>
+            {summary && (
+              <div>
+                <form className="newummary-form" onSubmit={handleSubmit(onEdit)}>
+                  {/* eslint-disable */}
+                  <label htmlFor="title">
+                    title
+                    <input
+                      {...register('title', {
+                        required: 'please input title',
+                        maxLength: {
+                          value: 30,
+                          message: 'maxLength: 30',
+                        },
+                      })}
+                      value={summary.title}
+                      type="text"
+                      onChange={(e) => setSummary({ ...summary, title: e.target.value })}
+                      id="title"
+                    />
+                  </label>
+                  <label htmlFor="markdown">
+                    markdown
+                    <input
+                      {...register('markdown', {
+                        required: 'please input markdown',
+                      })}
+                      value={summary.markdown}
+                      type="text"
+                      onChange={(e) => setSummary({ ...summary, markdown: e.target.value })}
+                      id="markdown"
+                    />
+                  </label>
+                  {errors.name && <div>{errors.name.message}</div>}
+                  <button type="submit" className="newsummary-button">
+                    POST
+                  </button>
+                  {/* eslint-enable */}
+                  <button type="button" onClick={onDelete}>
+                    DELETE
+                  </button>
+                </form>
+              </div>
+            )}
+          </>
+        )}
       </main>
     </div>
   );
