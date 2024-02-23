@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { url } from '../const';
 // import SummariesTable from './SummariesTable';
 
 export const Home = () => {
+  const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies();
   const [summaries, setSummaries] = useState([]);
   const [errorMessage, setErrorMessage] = useState([]);
@@ -23,7 +24,7 @@ export const Home = () => {
         setSummaries(res.data.summaries);
       })
       .catch((err) => {
-        setErrorMessage(`failed to get data. ${err}`);
+        navigate('/signin');
       });
   }, []);
 
@@ -35,25 +36,27 @@ export const Home = () => {
           <p className="error-msg">{errorMessage}</p>
           <h2>summaries</h2>
           {/* <SummariesTable summaries={summaries} /> */}
-          <div className="summary-list__table-container">
-            <table className="summary-list__table">
-              <thead className="summary-list__table-head">
-                <tr>
-                  <th>タイトル</th>
-                </tr>
-              </thead>
-              <tbody className="summary-list__table-body">
-                {summaries.map((summary, key) => (
-                  <tr key={summary.id}>
-                    <td>
-                      <Link to={`detail/${summary.id}`}>{summary.title}</Link>
-                    </td>
-                    {summary.isMine && <Link to={`edit/${summary.id}`}>edit</Link>}
+          {summaries && (
+            <div className="summary-list__table-container">
+              <table className="summary-list__table">
+                <thead className="summary-list__table-head">
+                  <tr>
+                    <th>タイトル</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="summary-list__table-body">
+                  {summaries.map((summary, key) => (
+                    <tr key={summary.id}>
+                      <td>
+                        <Link to={`detail/${summary.id}`}>{summary.title}</Link>
+                      </td>
+                      {summary.isMine && <Link to={`edit/${summary.id}`}>edit</Link>}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
           <div className="new-summary">
             <Link to="/new">POST SUMMARY</Link>
           </div>
