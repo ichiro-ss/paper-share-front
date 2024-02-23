@@ -36,25 +36,27 @@ export const Home = () => {
           <p className="error-msg">{errorMessage}</p>
           <h2>summaries</h2>
           {/* <SummariesTable summaries={summaries} /> */}
-          <div className="summary-list__table-container">
-            <table className="summary-list__table">
-              <thead className="summary-list__table-head">
-                <tr>
-                  <th>タイトル</th>
-                </tr>
-              </thead>
-              <tbody className="summary-list__table-body">
-                {summaries.map((summary, key) => (
-                  <tr key={summary.id}>
-                    <td>
-                      <Link to={`detail/${summary.id}`}>{summary.title}</Link>
-                    </td>
-                    {summary.isMine && <Link to={`edit/${summary.id}`}>edit</Link>}
+          {summaries && (
+            <div className="summary-list__table-container">
+              <table className="summary-list__table">
+                <thead className="summary-list__table-head">
+                  <tr>
+                    <th>タイトル</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="summary-list__table-body">
+                  {summaries.map((summary, key) => (
+                    <tr key={summary.id}>
+                      <td>
+                        <Link to={`detail/${summary.id}`}>{summary.title}</Link>
+                      </td>
+                      {summary.isMine && <Link to={`edit/${summary.id}`}>edit</Link>}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
           <div className="new-summary">
             <Link to="/new">POST SUMMARY</Link>
           </div>
