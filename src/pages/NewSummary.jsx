@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { url } from '../const';
 import { Header } from '../components/Header';
+import './newSummary.scss';
 
 export const NewSummary = () => {
   const navigate = useNavigate();
@@ -42,38 +43,42 @@ export const NewSummary = () => {
   };
   return (
     <div>
+      <Header />
       <main className="newSummary">
-        <Header />
         <h1>NewSummary</h1>
-        <p className="error-message">{errorMessage}</p>
+        <p className="error-msg">{errorMessage}</p>
         <form className="newsummary-form" onSubmit={handleSubmit(onNewSummary)}>
           {/* eslint-disable */}
-          <label htmlFor="title">
-            title
-            <input
-              {...register('title', {
-                required: 'please input title',
-                maxLength: {
-                  value: 30,
-                  message: 'maxLength: 30',
-                },
-              })}
-              type="text"
-              onChange={handleTitleChange}
-              id="title"
-            />
-          </label>
-          <label htmlFor="markdown">
-            markdown
-            <input
-              {...register('markdown', {
-                required: 'please input markdown',
-              })}
-              type="text"
-              onChange={handleMarkdownChange}
-              id="markdown"
-            />
-          </label>
+          <div>
+            <label htmlFor="title">
+              title
+              <input
+                {...register('title', {
+                  required: 'please input title',
+                  maxLength: {
+                    value: 30,
+                    message: 'maxLength: 30',
+                  },
+                })}
+                type="text"
+                onChange={handleTitleChange}
+                id="title"
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="markdown">
+              markdown
+              <textarea
+                {...register('markdown', {
+                  required: 'please input markdown',
+                })}
+                type="text"
+                onChange={handleMarkdownChange}
+                id="markdown"
+              />
+            </label>
+          </div>
           {errors.name && <div>{errors.name.message}</div>}
           <button type="submit" className="newsummary-button">
             POST
