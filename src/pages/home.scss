@@ -2,11 +2,18 @@
 @use '../styles/_mixins.scss' as mixs;
 
 .home {
+  width: 50%;
   margin: 50px auto;
   list-style: none;
-  width: 1000px;
+  @include mixs.tablet {
+    width: 90%;
+  }
 }
 
 .error-msg {
   color: vars.$red-strong;
+}
+
+.summary-list__table-body {
+  text-align: left;
 }

@@ -127,7 +127,7 @@ export const Edit = () => {
                   </label>
                   <label htmlFor="markdown">
                     markdown
-                    <input
+                    <textarea
                       {...register('markdown', {
                         required: 'please input markdown',
                       })}
