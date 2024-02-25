@@ -1,0 +1,12 @@
+@use '../styles/_variables.scss' as vars;
+@use '../styles/_mixins.scss' as mixs;
+
+.home {
+  margin: 50px auto;
+  list-style: none;
+  width: 1000px;
+}
+
+.error-msg {
+  color: vars.$red-strong;
+}
