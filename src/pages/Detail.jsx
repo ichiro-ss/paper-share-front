@@ -6,6 +6,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import { url } from '../const';
 import { Header } from '../components/Header';
 import ReactMarkdown from 'react-markdown';
+import remarkBreaks from 'remark-breaks';
 
 export const Detail = () => {
   const [cookies] = useCookies();
@@ -48,7 +49,14 @@ export const Detail = () => {
         ) : (
           <div className="summary-detail">
             <div className="summary-detail__title">{summary.title}</div>
-            <ReactMarkdown>{summary.markdown}</ReactMarkdown>
+            <ReactMarkdown
+              remarkPlugins={[remarkBreaks]}
+              components={{
+                p: ({ children }) => <p style={{ marginBottom: '1em' }}>{children}</p>,
+              }}
+            >
+              {summary.markdown}
+            </ReactMarkdown>
           </div>
         )}
       </main>
