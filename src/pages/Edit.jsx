@@ -6,6 +6,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import { useForm } from 'react-hook-form';
 import { Header } from '../components/Header';
 import { url } from '../const';
+import './edit.scss';
 
 export const Edit = () => {
   const navigate = useNavigate();
@@ -94,8 +95,8 @@ export const Edit = () => {
 
   return (
     <div>
+      <Header />
       <main className="edit">
-        <Header />
         <p className="error-msg">{errorMessage}</p>
         <h1>Edit</h1>
         {pageLoading ? (
