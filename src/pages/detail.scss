@@ -1,0 +1,14 @@
+@use '../styles/_variables.scss' as vars;
+@use '../styles/_mixins.scss' as mixs;
+
+.detail {
+  width: 50%;
+  margin: auto;
+  @include mixs.tablet {
+    width: 90%;
+  }
+}
+
+.markdown {
+  text-align: left;
+}

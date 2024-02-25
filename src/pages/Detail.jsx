@@ -7,6 +7,7 @@ import { url } from '../const';
 import { Header } from '../components/Header';
 import ReactMarkdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
+import './detail.scss';
 
 export const Detail = () => {
   const [cookies] = useCookies();
@@ -39,8 +40,8 @@ export const Detail = () => {
 
   return (
     <div>
+      <Header />
       <main className="detail">
-        <Header />
         <p className="error-msg">{errorMessage}</p>
         {pageLoading ? (
           <div className="loading custom-loader">
@@ -49,14 +50,16 @@ export const Detail = () => {
         ) : (
           <div className="summary-detail">
             <div className="summary-detail__title">{summary.title}</div>
-            <ReactMarkdown
-              remarkPlugins={[remarkBreaks]}
-              components={{
-                p: ({ children }) => <p style={{ marginBottom: '1em' }}>{children}</p>,
-              }}
-            >
-              {summary.markdown}
-            </ReactMarkdown>
+            <div className="markdown">
+              <ReactMarkdown
+                remarkPlugins={[remarkBreaks]}
+                components={{
+                  p: ({ children }) => <p style={{ marginBottom: '1em' }}>{children}</p>,
+                }}
+              >
+                {summary.markdown}
+              </ReactMarkdown>
+            </div>
           </div>
         )}
       </main>
