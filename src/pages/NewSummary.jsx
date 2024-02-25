@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { url } from '../const';
 import { Header } from '../components/Header';
+import './newSummary.scss';
 
 export const NewSummary = () => {
   const navigate = useNavigate();
@@ -42,8 +43,8 @@ export const NewSummary = () => {
   };
   return (
     <div>
+      <Header />
       <main className="newSummary">
-        <Header />
         <h1>NewSummary</h1>
         <p className="error-msg">{errorMessage}</p>
         <form className="newsummary-form" onSubmit={handleSubmit(onNewSummary)}>
