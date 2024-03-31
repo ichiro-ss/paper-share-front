@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useParams, useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { Header } from '../components/Header';
 import { url } from '../const';
 import './edit.scss';
@@ -18,9 +18,15 @@ export const Edit = () => {
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'onBlur' });
+
+  const { fields, prepend, append, remove } = useFieldArray({
+    control,
+    name: 'authors',
+  });
 
   useEffect(() => {
     setPageLoading(true);
@@ -54,6 +60,7 @@ export const Edit = () => {
     const data = {
       title: summary.title,
       markdown: summary.markdown,
+      authors: summary.authors,
     };
     axios
       .put(`${url}/summaries`, data, {
@@ -137,6 +144,33 @@ export const Edit = () => {
                       id="markdown"
                     />
                   </label>
+                  <div>
+                    <label htmlFor="authors">
+                      authors
+                      {fields.map((field, index) => (
+                        <div key={field.id}>
+                          <input
+                            {...register(`authors.${index}.name`, {
+                              required: 'please input name',
+                            })}
+                            value={summary.authors[index]}
+                            type="text"
+                            onChange={(e) => {
+                              const newAuthors = [...summary.authors];
+                              newAuthors[index] = e.target.value;
+                              setSummary({ ...summary, authors: newAuthors });
+                            }}
+                          />
+                          <button type="button" onClick={() => remove(index)}>
+                            DELETE
+                          </button>
+                        </div>
+                      ))}
+                      <button type="button" onClick={() => append({ name: '' })}>
+                        ADD
+                      </button>
+                    </label>
+                  </div>
                   {errors.name && <div>{errors.name.message}</div>}
                   <button type="submit" className="newsummary-button">
                     POST
