@@ -50,6 +50,11 @@ export const Detail = () => {
         ) : (
           <div className="summary-detail">
             <div className="summary-detail__title">{summary.title}</div>
+            <div className="summary-detail__authors">
+              {summary.authors?.map((author) => (
+                <a key={author}> {author}</a>
+              ))}
+            </div>
             <div className="markdown">
               <ReactMarkdown
                 remarkPlugins={[remarkBreaks]}
