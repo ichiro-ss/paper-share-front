@@ -56,8 +56,8 @@ export const NewSummary = () => {
                 {...register('title', {
                   required: 'please input title',
                   maxLength: {
-                    value: 30,
-                    message: 'maxLength: 30',
+                    value: 120,
+                    message: 'maxLength: 120',
                   },
                 })}
                 type="text"
