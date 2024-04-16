@@ -7,7 +7,6 @@ import { url } from '../const';
 import { Header } from '../components/Header';
 import ReactMarkdown from 'react-markdown';
 import remarkBreaks from 'remark-breaks';
-import './detail.scss';
 
 export const Detail = () => {
   const [cookies] = useCookies();
@@ -48,14 +47,14 @@ export const Detail = () => {
             <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
           </div>
         ) : (
-          <div className="summary-detail">
-            <div className="summary-detail__title">{summary.title}</div>
-            <div className="summary-detail__authors">
+          <div className="w-1/2 px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <h1 className="font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">{summary.title}</h1>
+            <div className="text-right">
               {summary.authors?.map((author) => (
                 <a key={author}> {author}</a>
               ))}
             </div>
-            <div className="markdown">
+            <div className="text-left block mb-2 text-sm font-medium text-gray-900">
               <ReactMarkdown
                 remarkPlugins={[remarkBreaks]}
                 components={{
