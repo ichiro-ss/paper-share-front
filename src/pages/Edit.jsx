@@ -6,7 +6,6 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { Header } from '../components/Header';
 import { url } from '../const';
-import './edit.scss';
 
 export const Edit = () => {
   const navigate = useNavigate();
@@ -105,86 +104,111 @@ export const Edit = () => {
     <div>
       <Header />
       <main className="edit">
-        <p className="error-msg">{errorMessage}</p>
-        <h1>Edit</h1>
-        {pageLoading ? (
-          <div className="loading custom-loader">
-            <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
-          </div>
-        ) : (
-          <>
-            {summary && (
-              <div>
-                <form className="newummary-form" onSubmit={handleSubmit(onEdit)}>
-                  {/* eslint-disable */}
-                  <label htmlFor="title">
-                    title
-                    <input
-                      {...register('title', {
-                        required: 'please input title',
-                        maxLength: {
-                          value: 120,
-                          message: 'maxLength: 120',
-                        },
-                      })}
-                      value={summary.title}
-                      type="text"
-                      onChange={(e) => setSummary({ ...summary, title: e.target.value })}
-                      id="title"
-                    />
-                  </label>
-                  <label htmlFor="markdown">
-                    markdown
-                    <textarea
-                      {...register('markdown', {
-                        required: 'please input markdown',
-                      })}
-                      value={summary.markdown}
-                      type="text"
-                      onChange={(e) => setSummary({ ...summary, markdown: e.target.value })}
-                      id="markdown"
-                    />
-                  </label>
-                  <div>
-                    <label htmlFor="authors">
-                      authors
-                      {fields.map((field, index) => (
-                        <div key={field.id}>
-                          <input
-                            {...register(`authors.${index}.name`, {
-                              required: 'please input name',
-                            })}
-                            value={summary.authors[index]}
-                            type="text"
-                            onChange={(e) => {
-                              const newAuthors = [...summary.authors];
-                              newAuthors[index] = e.target.value;
-                              setSummary({ ...summary, authors: newAuthors });
-                            }}
-                          />
-                          <button type="button" onClick={() => remove(index)}>
-                            DELETE
-                          </button>
-                        </div>
-                      ))}
-                      <button type="button" onClick={() => append('')}>
-                        ADD
-                      </button>
-                    </label>
+        <div className="flex flex-col items-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <p className="error-msg">{errorMessage}</p>
+          {pageLoading ? (
+            <div className="loading custom-loader">
+              <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
+            </div>
+          ) : (
+            <>
+              {summary && (
+                <div className="w-full border bg-gray-200 border-gray-200 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+                  <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onEdit)}>
+                      {/* eslint-disable */}
+                      <label htmlFor="title" className="text-left block mb-2 text-sm font-medium text-gray-900">
+                        title
+                        <input
+                          {...register('title', {
+                            required: 'please input title',
+                            maxLength: {
+                              value: 120,
+                              message: 'maxLength: 120',
+                            },
+                          })}
+                          value={summary.title}
+                          type="text"
+                          onChange={(e) => setSummary({ ...summary, title: e.target.value })}
+                          id="title"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                        />
+                      </label>
+                      <label htmlFor="markdown" className="text-left block mb-2 text-sm font-medium text-gray-900">
+                        markdown
+                        <textarea
+                          {...register('markdown', {
+                            required: 'please input markdown',
+                          })}
+                          value={summary.markdown}
+                          type="text"
+                          onChange={(e) => setSummary({ ...summary, markdown: e.target.value })}
+                          id="markdown"
+                        />
+                      </label>
+                      <div>
+                        <label htmlFor="authors">
+                          <div className="block text-left">authors</div>
+                          {fields.map((field, index) => (
+                            <div key={field.id}>
+                              <input
+                                {...register(`authors.${index}.name`, {
+                                  required: 'please input name',
+                                })}
+                                value={summary.authors[index]}
+                                type="text"
+                                onChange={(e) => {
+                                  const newAuthors = [...summary.authors];
+                                  newAuthors[index] = e.target.value;
+                                  setSummary({ ...summary, authors: newAuthors });
+                                }}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => remove(index)}
+                                className="text-gray-800 hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-2 py-2 lg:py-2 mr-2"
+                              >
+                                DELETE
+                              </button>
+                            </div>
+                          ))}
+                          <div className="flex justify-end">
+                            <button
+                              type="button"
+                              onClick={() => append('')}
+                              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-2 py-2 lg:py-2 mr-2"
+                            >
+                              ADD
+                            </button>
+                          </div>
+                        </label>
+                      </div>
+                      {errors.name && (
+                        <div className="text-right text-sm font-medium dark:text-red-500">{errors.name.message}</div>
+                      )}
+                      <div className="flex justify-evenly">
+                        <button
+                          type="submit"
+                          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-2 py-2 lg:py-2 mr-2"
+                        >
+                          POST
+                        </button>
+                        {/* eslint-enable */}
+                        <button
+                          type="button"
+                          onClick={onDelete}
+                          className="text-gray-800 hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-2 py-2 lg:py-2 mr-2"
+                        >
+                          DELETE
+                        </button>
+                      </div>
+                    </form>
                   </div>
-                  {errors.name && <div>{errors.name.message}</div>}
-                  <button type="submit" className="newsummary-button">
-                    POST
-                  </button>
-                  {/* eslint-enable */}
-                  <button type="button" onClick={onDelete}>
-                    DELETE
-                  </button>
-                </form>
-              </div>
-            )}
-          </>
-        )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </main>
     </div>
   );
