@@ -5,7 +5,6 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { useState } from 'react';
 import { url } from '../const';
 import { Header } from '../components/Header';
-import './newSummary.scss';
 
 export const NewSummary = () => {
   const navigate = useNavigate();
