@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { Header } from '../components/Header';
 import { url } from '../const';
-import './home.scss';
 // import SummariesTable from './SummariesTable';
 
 export const Home = () => {
@@ -39,43 +38,51 @@ export const Home = () => {
       <Header />
       <main className="home">
         {cookies.token && (
-          <>
+          <div className="flex flex-col items-center ">
             <p className="error-msg">{errorMessage}</p>
-            <h2>summaries</h2>
             {/* <SummariesTable summaries={summaries} /> */}
             {pageLoading ? (
               <div className="loading custom-loader">
                 <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
               </div>
             ) : (
-              <>
+              <ul>
                 {summaries && (
-                  <div className="summary-list__table-container">
-                    <table className="summary-list__table">
-                      <thead className="summary-list__table-head">
-                        <tr>
-                          <th>タイトル</th>
-                        </tr>
-                      </thead>
-                      <tbody className="summary-list__table-body">
-                        {summaries.map((summary, key) => (
-                          <tr key={summary.id}>
-                            <td>
-                              <Link to={`detail/${summary.id}`}>{summary.title}</Link>
-                            </td>
-                            {summary.isMine && <Link to={`edit/${summary.id}`}>edit</Link>}
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                  <div>
+                    {summaries.map((summary, key) => (
+                      <li
+                        key={summary.id}
+                        className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-200"
+                      >
+                        <Link
+                          to={`detail/${summary.id}`}
+                          className="text-left block mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-900"
+                        >
+                          {summary.title}
+                        </Link>
+                        {summary.isMine && (
+                          <div className="flex justify-end">
+                            <Link
+                              to={`edit/${summary.id}`}
+                              className="px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                              edit
+                            </Link>
+                          </div>
+                        )}
+                      </li>
+                    ))}
                   </div>
                 )}
-              </>
+              </ul>
             )}
-            <div className="new-summary">
-              <Link to="/new">POST SUMMARY</Link>
-            </div>
-          </>
+            <Link
+              to="/new"
+              className="mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              POST SUMMARY
+            </Link>
+          </div>
         )}
       </main>
     </div>

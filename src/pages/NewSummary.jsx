@@ -52,72 +52,89 @@ export const NewSummary = () => {
     <div>
       <Header />
       <main className="newSummary">
-        <h1>NewSummary</h1>
         <p className="error-msg">{errorMessage}</p>
-        <form className="newsummary-form" onSubmit={handleSubmit(onNewSummary)}>
-          {/* eslint-disable */}
-          <div>
-            <label htmlFor="title">
-              title
-              <input
-                {...register('title', {
-                  required: 'please input title',
-                  maxLength: {
-                    value: 120,
-                    message: 'maxLength: 120',
-                  },
-                })}
-                type="text"
-                onChange={handleTitleChange}
-                id="title"
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="markdown">
-              markdown
-              <textarea
-                {...register('markdown', {
-                  required: 'please input markdown',
-                })}
-                type="text"
-                onChange={handleMarkdownChange}
-                id="markdown"
-              />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="authors">
-              authors
-              {fields.map((field, index) => (
-                <div key={field.id}>
+        <div className="w-full border bg-gray-200 border-gray-200 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit(onNewSummary)}>
+              {/* eslint-disable */}
+              <div>
+                <label htmlFor="title" className="text-left block mb-2 text-sm font-medium text-gray-900">
+                  title
                   <input
-                    {...register(`authors.${index}.name`, {
-                      required: 'please input name',
+                    {...register('title', {
+                      required: 'please input title',
+                      maxLength: {
+                        value: 120,
+                        message: 'maxLength: 120',
+                      },
                     })}
                     type="text"
-                    onChange={(e) => {
-                      const newAuthors = [...authors];
-                      newAuthors[index] = e.target.value;
-                      setAuthors(newAuthors);
-                    }}
+                    onChange={handleTitleChange}
+                    id="title"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   />
-                  <button type="button" onClick={() => remove(index)}>
-                    delete
-                  </button>
-                </div>
-              ))}
-              <button type="button" onClick={() => append('')}>
-                add
+                </label>
+              </div>
+              <div>
+                <label htmlFor="markdown" className="text-left block mb-2 text-sm font-medium text-gray-900">
+                  markdown
+                  <textarea
+                    {...register('markdown', {
+                      required: 'please input markdown',
+                    })}
+                    type="text"
+                    onChange={handleMarkdownChange}
+                    id="markdown"
+                  />
+                </label>
+              </div>
+              <div>
+                <label htmlFor="authors">
+                  <div className="block text-left">authors</div>
+                  {fields.map((field, index) => (
+                    <div key={field.id}>
+                      <input
+                        {...register(`authors.${index}.name`, {
+                          required: 'please input name',
+                        })}
+                        type="text"
+                        onChange={(e) => {
+                          const newAuthors = [...authors];
+                          newAuthors[index] = e.target.value;
+                          setAuthors(newAuthors);
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className="text-gray-800 hover:bg-gray-300 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-2 py-2 lg:py-2 mr-2"
+                      >
+                        DELETE
+                      </button>
+                    </div>
+                  ))}
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => append('')}
+                      className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-2 py-2 lg:py-2 mr-2"
+                    >
+                      ADD
+                    </button>
+                  </div>
+                </label>
+              </div>
+              {errors.name && <div>{errors.name.message}</div>}
+              <button
+                type="submit"
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-2 py-2 lg:py-2 mr-2"
+              >
+                POST
               </button>
-            </label>
+              {/* eslint-enable */}
+            </form>
           </div>
-          {errors.name && <div>{errors.name.message}</div>}
-          <button type="submit" className="newsummary-button">
-            POST
-          </button>
-          {/* eslint-enable */}
-        </form>
+        </div>
       </main>
     </div>
   );
