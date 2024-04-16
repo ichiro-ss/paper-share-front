@@ -14,6 +14,7 @@ export const Edit = () => {
   const [cookies, setCookie, removeCookie] = useCookies();
   const [errorMessage, setErrorMessage] = useState();
   const [summary, setSummary] = useState([]);
+  const [authors, setAuthors] = useState([]);
   const [pageLoading, setPageLoading] = useState(false);
 
   const {
@@ -166,7 +167,7 @@ export const Edit = () => {
                           </button>
                         </div>
                       ))}
-                      <button type="button" onClick={() => append({ name: '' })}>
+                      <button type="button" onClick={() => append('')}>
                         ADD
                       </button>
                     </label>
