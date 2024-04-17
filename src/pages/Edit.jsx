@@ -144,6 +144,7 @@ export const Edit = () => {
                           type="text"
                           onChange={(e) => setSummary({ ...summary, markdown: e.target.value })}
                           id="markdown"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                         />
                       </label>
                       <div>
@@ -162,6 +163,7 @@ export const Edit = () => {
                                   newAuthors[index] = e.target.value;
                                   setSummary({ ...summary, authors: newAuthors });
                                 }}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                               />
                               <button
                                 type="button"
