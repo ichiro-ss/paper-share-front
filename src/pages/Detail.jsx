@@ -47,7 +47,7 @@ export const Detail = () => {
             <ClipLoader color="blue" size={50} aria-label="Loading Spinner" data-testid="loader" />
           </div>
         ) : (
-          <div className="w-1/2 px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <div className="lg:w-1/2 px-6 py-8 mx-auto md:h-screen lg:py-0">
             <h1 className="font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">{summary.title}</h1>
             <div className="text-right">
               {summary.authors?.map((author) => (
